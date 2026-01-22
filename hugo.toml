@@ -24,16 +24,17 @@ relativeURLs = false
   ShowBreadCrumbs = true
 
 [[menu.main]]
-  name = "Posts"
-  url = "/posts/"
-  weight = 10
+name = "Posts"
+url = "posts/"
+weight = 10
 
 [[menu.main]]
-  name = "Búsqueda"
-  url = "/search/"
-  weight = 20
+name = "Búsqueda"
+url = "search/"
+weight = 20
 
 [[menu.main]]
-  name = "Acerca"
-  url = "/about/"
-  weight = 30
+name = "Acerca"
+url = "about/"
+weight = 30
+
