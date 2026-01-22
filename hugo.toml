@@ -1,0 +1,39 @@
+baseURL = "https://jefferdev.github.io/microsoft-cybersec/"
+title = "Microsoft Cybersecurity Blog"
+defaultContentLanguage = "es"
+
+theme = ["PaperMod"]
+
+canonifyURLs = true
+relativeURLs = false
+
+[languages]
+  [languages.es]
+    languageName = "Español"
+    languageCode = "es"
+    weight = 1
+
+[params]
+  author = "Jefferson Castiblanco"
+  description = "Laboratorios reales de ciberseguridad en Microsoft 365"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
+
+[[menu.main]]
+  name = "Posts"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  name = "Búsqueda"
+  url = "/search/"
+  weight = 20
+
+[[menu.main]]
+  name = "Acerca"
+  url = "/about/"
+  weight = 30
