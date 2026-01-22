@@ -7,7 +7,7 @@ tags: ["BitLocker", "Entra ID", "Windows 11", "Endpoint Security", "Compliance",
 summary: "Laboratorio completo para habilitar BitLocker con Intune (Endpoint security), validar el cifrado y recuperar la clave de recuperación desde Microsoft Entra ID."
 ---
 
-## 🎯 Objetivo
+## Objetivo
 
 Implementar BitLocker en Windows con Microsoft Intune (Endpoint security) y validar:
 
@@ -18,7 +18,7 @@ Implementar BitLocker en Windows con Microsoft Intune (Endpoint security) y vali
 
 ---
 
-## 🧩 Alcance
+## Alcance
 
 Incluye:
 - Política de BitLocker vía Intune
@@ -32,7 +32,7 @@ No incluye:
 
 ---
 
-## 🧠 Arquitectura / Flujo
+## Arquitectura / Flujo
 
 ```mermaid
 flowchart TD
@@ -43,42 +43,31 @@ D --> E[Recovery Key Escrow]
 E --> F[Microsoft Entra ID Device Object]
 F --> G[Admin recupera clave]
 
----
+```
 
-## 🧩 Requisitos
-Técnicos
+## Requisitos Técnicos
 
 Windows 10/11 Pro/Enterprise/Education
-
-Dispositivo inscrito en Intune
-
-Recomendado: Entra Joined (o Hybrid Joined si aplica)
-
-TPM disponible (recomendado para mejor experiencia)
-
-Roles / permisos
-
-Permiso para administrar políticas en Intune
-
-Permiso para ver dispositivos en Entra ID (para recuperar claves)
-
-Consideraciones previas
-
-Define si vas a cifrar:
-
-Solo SO drive (más común)
-
-SO + unidades fijas (más restrictivo)
-
-Unidades removibles (BitLocker To Go)
+- Dispositivo inscrito en Intune
+- Recomendado: Entra Joined (o Hybrid Joined si aplica)
+- TPM disponible (recomendado para mejor experiencia)
+- Roles / permisos
+- Permiso para administrar políticas en Intune
+- Permiso para ver dispositivos en Entra ID (para recuperar claves)
+- Consideraciones previas
+- Define si vas a cifrar:
+  - Solo SO drive (más común)
+  - SO + unidades fijas (más restrictivo)
+  - Unidades removibles (BitLocker To Go)
 
 
 ---
 
-## 🛠️ Paso a paso
-Paso 1 — Verifica estado del dispositivo (rápido)
+## Paso a paso
+### Paso 1 — Verifica estado del dispositivo (rápido)
+ En el equipo (PowerShell como admin):
+```powershel
 
-En el equipo (PowerShell como admin):
 
 # Estado de BitLocker
 manage-bde -status
@@ -93,7 +82,10 @@ Si aún no está cifrado, verás "Conversion Status: Fully Decrypted"
 
 TPM listo (TpmReady : True) ayuda, pero no siempre es obligatorio según tu política
 
-Paso 2 — Crear política de cifrado en Intune (Endpoint security)
+
+```
+
+### Paso 2 — Crear política de cifrado en Intune (Endpoint security)
 
 Entra a Intune admin center
 
@@ -115,7 +107,7 @@ Nota: El portal y nombres exactos pueden variar ligeramente por actualización U
 
 Asigna la política a un grupo de dispositivos (piloto primero).
 
-Paso 3 — Forzar sincronización (piloto)
+### Paso 3 — Forzar sincronización (piloto)
 
 En el equipo:
 
@@ -126,7 +118,7 @@ Sync
 
 Espera la aplicación (usualmente minutos, pero depende del ciclo).
 
-Paso 4 — Validar cifrado en el equipo
+### Paso 4 — Validar cifrado en el equipo
 manage-bde -status C:
 
 
@@ -138,7 +130,7 @@ Protection Status: Protection On
 
 Si está “Encrypting”, espera a que termine.
 
-Paso 5 — Validar que la clave quedó registrada (Entra ID)
+### Paso 5 — Validar que la clave quedó registrada (Entra ID)
 
 En el portal de Microsoft Entra admin center:
 
@@ -156,13 +148,15 @@ Información asociada al dispositivo
 
 Si no aparece: revisa “Errores comunes” más abajo.
 
-✅ Validación (checklist de éxito)
-En el dispositivo
+Validación (checklist de éxito)
+- En el dispositivo
 
-manage-bde -status muestra Fully Encrypted
+```powershel
 
-BitLocker Protection On
+ manage-bde -status muestra Fully Encrypted
+ BitLocker Protection On
 
+```
 En Intune
 
 Dispositivo aparece “Compliant” (si tu compliance policy incluye cifrado)
@@ -173,14 +167,15 @@ En Entra ID
 
 El dispositivo muestra BitLocker keys visibles para admin
 
-⚠️ Errores comunes (y cómo resolverlos)
+### Errores comunes (y cómo resolverlos)
 Síntoma	Causa probable	Solución recomendada
 No cifra	Política no llegó / conflicto	Forzar Sync, revisar asignación a grupo, validar que no haya otra política BitLocker aplicándose
 Cifra pero no hay clave en Entra ID	El dispositivo no está Entra Joined / permisos / retraso	Verifica estado join, espera propagación, revisa que la política permita escrow y que el dispositivo esté bien registrado
 Sin TPM / fallos TPM	BIOS/UEFI TPM deshabilitado o no listo	Habilitar TPM en BIOS/UEFI, reiniciar, validar Get-Tpm
 “Access denied” al ver claves	Falta de permisos RBAC	Ajusta roles en Entra/Intune para recuperación de claves
 CSS/JS del blog ok pero el post no aparece	draft: true	Cambia a draft: false
-🔐 Recomendaciones de seguridad (hardening)
+
+### Recomendaciones de seguridad (hardening)
 
 Piloto primero: aplica a un grupo pequeño antes de masificar
 
@@ -194,7 +189,7 @@ Si manejas datos regulados, exige cifrado como requisito de cumplimiento
 
 Documenta procedimiento de recuperación para Service Desk (pero no publiques claves ni ejemplos reales)
 
-♻️ Rollback (reversión)
+### Rollback (reversión)
 
 Si necesitas detener el cifrado (raro en producción):
 
@@ -207,23 +202,17 @@ manage-bde -off C:
 
 En producción, define un proceso formal de cambio/riesgo antes de descifrar.
 
-📊 Operación y monitoreo
+### Operación y monitoreo
 
-Usa reportes de Intune (Endpoint security / Device status)
+ Usa reportes de Intune (Endpoint security / Device status)
+ Valida eventos en el dispositivo (Event Viewer) si hay fallos de cifrado
+ Establece un runbook de:
+ Alta de dispositivos
+ Verificación de cifrado
+ Recuperación de claves
+ Rotación/gestión
 
-Valida eventos en el dispositivo (Event Viewer) si hay fallos de cifrado
-
-Establece un runbook de:
-
-Alta de dispositivos
-
-Verificación de cifrado
-
-Recuperación de claves
-
-Rotación/gestión
-
-📚 Referencias oficiales
+### Referencias oficiales
 
 Microsoft Intune - Disk encryption / BitLocker (documentación):
 https://learn.microsoft.com/en-us/mem/intune/protect/encrypt-devices
@@ -231,7 +220,7 @@ https://learn.microsoft.com/en-us/mem/intune/protect/encrypt-devices
 Microsoft Entra - Devices (administración de dispositivos):
 https://learn.microsoft.com/en-us/entra/identity/devices/
 
-🧪 Anexo — Comandos útiles
+### Anexo — Comandos útiles
 Estado BitLocker
 manage-bde -status
 
