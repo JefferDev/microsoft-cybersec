@@ -15,9 +15,14 @@ theme = ["PaperMod"]
     languageCode = "es"
     weight = 1
 
+[params.profileMode]
+enabled = false
+
+
 [params]
   author = "Jefferson Castiblanco"
   description = "Laboratorios reales de ciberseguridad en Microsoft 365"
+  avatar = "/static/img/authors/jefferson.jpg"
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowShareButtons = true
