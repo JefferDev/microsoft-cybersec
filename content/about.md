@@ -4,9 +4,10 @@ date: 2026-01-22T13:35:00-05:00
 draft: false
 ---
 
-<img src="/static/img/jefferson.jpg" alt="Jefferson Castiblanco" width="180" style="border-radius: 50%; margin-bottom: 1rem;" />
+![Jefferson Castiblanco](/microsoft-cybersec/img/jefferson.jpg)
 
-Soy **Jefferson Castiblanco**.  
+Soy **Jefferson Castiblanco**. Publico laboratorios y procedimientos de ciberseguridad enfocados en Microsoft 365 (Entra ID, Intune, Purview, Defender) y cumplimiento LATAM.
+ 
 Publico laboratorios y procedimientos de ciberseguridad enfocados en:
 
 - Microsoft Entra ID  
@@ -15,4 +16,4 @@ Publico laboratorios y procedimientos de ciberseguridad enfocados en:
 - Microsoft Defender XDR  
 - Cumplimiento LATAM  
 
-🎯 **Objetivo:** contenido reproducible, técnico y validado en entornos reales.
+**Objetivo:** contenido reproducible, técnico y validado en entornos reales.

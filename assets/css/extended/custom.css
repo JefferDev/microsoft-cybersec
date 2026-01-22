@@ -104,3 +104,14 @@
 .post-content th {
   background: var(--code-bg);
 }
+
+/* About: primera imagen como avatar redondo */
+.post-content img[alt="Jefferson Castiblanco"] {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 999px;
+  display: block;
+  margin: 0 0 1rem 0;
+  border: 1px solid var(--border);
+}
