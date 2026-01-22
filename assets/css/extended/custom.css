@@ -1,0 +1,106 @@
+/* ========== PRO TYPOGRAPHY ========== */
+.post-content {
+  line-height: 1.75;
+  font-size: 1.06rem;
+}
+
+.post-title {
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+.post-content h2 { margin-top: 2.2rem; }
+.post-content h3 { margin-top: 1.6rem; }
+
+/* ========== META BAR (Microsoft-like) ========== */
+.meta-pro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  align-items: center;
+  margin: .2rem 0 1rem 0;
+  opacity: .95;
+}
+
+.meta-pro .kicker {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  opacity: .75;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+}
+
+.badge a { text-decoration: none; }
+
+/* ========== AUTHOR ROW ========== */
+.author-row {
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+  margin: .2rem 0 1.2rem 0;
+}
+
+.author-row img {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.author-row .author-name { font-weight: 650; }
+.author-row .author-sub {
+  font-size: .9rem;
+  opacity: .75;
+}
+
+/* ========== HERO IMAGE ========== */
+.hero {
+  margin: 1rem 0 1.4rem 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.hero img { display:block; width:100%; height:auto; }
+.hero .caption {
+  padding: .6rem .8rem;
+  font-size: .9rem;
+  opacity: .8;
+  background: var(--code-bg);
+  border-top: 1px solid var(--border);
+}
+
+/* ========== CALLOUTS ========== */
+.callout {
+  padding: 1rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin: 1.2rem 0;
+}
+
+.callout strong { display:inline-block; margin-bottom:.25rem; }
+
+.callout-note { background: rgba(0,120,212,.09); }
+.callout-warn { background: rgba(255,185,0,.12); }
+.callout-tip  { background: rgba(16,185,129,.10); }
+
+/* ========== TABLE PRO ========== */
+.post-content table {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.post-content th {
+  background: var(--code-bg);
+}

@@ -1,0 +1,34 @@
+{{- $authorKey := (or .Params.authorKey "jefferson") -}}
+{{- $author := index site.Data.authors $authorKey -}}
+
+<div class="meta-pro">
+  <span class="kicker">{{ with .Params.categories }}{{ index . 0 }}{{ else }}Microsoft Cybersecurity Blog{{ end }}</span>
+
+  {{ if .ReadingTime }}
+    <span class="badge">⏱ {{ .ReadingTime }} min read</span>
+  {{ end }}
+
+  {{ with .Params.tags }}
+    {{ range first 4 . }}
+      <span class="badge">🏷 <a href="{{ (printf "tags/%s/" (. | urlize)) | relURL }}">{{ . }}</a></span>
+    {{ end }}
+  {{ end }}
+</div>
+
+{{ if $author }}
+<div class="author-row">
+  {{ if $author.avatar }}
+    <img src="{{ $author.avatar | relURL }}" alt="{{ $author.name }}">
+  {{ end }}
+  <div>
+    <div class="author-name">{{ $author.name }}</div>
+    <div class="author-sub">{{ .Date.Format "Jan 2, 2006" }} · {{ $author.title }}</div>
+  </div>
+</div>
+{{ else }}
+<div class="author-row">
+  <div>
+    <div class="author-sub">{{ .Date.Format "Jan 2, 2006" }}</div>
+  </div>
+</div>
+{{ end }}
