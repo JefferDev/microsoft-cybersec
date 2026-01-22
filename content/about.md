@@ -7,3 +7,4 @@ draft: false
 
 Soy Jefferson Castiblanco. Publico laboratorios y procedimientos de ciberseguridad enfocados en Microsoft 365 (Entra ID, Intune, Purview, Defender) y cumplimiento LATAM.
 "@ | Set-Content -Encoding utf8 .\content\about.md
+
