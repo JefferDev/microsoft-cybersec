@@ -36,14 +36,14 @@ No incluye:
 
 ```mermaid
 flowchart TD
-A[Administrador Intune] --> B[Policy: Endpoint security - Disk encryption]
-B --> C[Dispositivo Windows (Enrolled)]
-C --> D[BitLocker Encryption]
-D --> E[Recovery Key Escrow]
-E --> F[Microsoft Entra ID Device Object]
-F --> G[Admin recupera clave]
-
+A["Administrador Intune"] --> B["Policy: Endpoint security - Disk encryption"]
+B --> C["Dispositivo Windows (Enrolled)"]
+C --> D["BitLocker Encryption"]
+D --> E["Recovery Key Escrow"]
+E --> F["Microsoft Entra ID Device Object"]
+F --> G["Admin recupera clave"]
 ```
+
 
 ## Requisitos Técnicos
 

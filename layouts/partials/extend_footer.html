@@ -1,0 +1,45 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!window.mermaid) return;
+
+    mermaid.initialize({ startOnLoad: false });
+
+    // Busca bloques mermaid en varias formas que Hugo/PaperMod puede generar
+    var selectors = [
+      "pre > code.language-mermaid",
+      "pre > code.mermaid",
+      "div.highlight pre > code.language-mermaid",
+      "div.highlight pre > code.mermaid",
+      "code.language-mermaid",
+      "code.mermaid"
+    ];
+
+    var codes = [];
+    selectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) { codes.push(el); });
+    });
+
+    // Deduplicar
+    codes = Array.from(new Set(codes));
+
+    codes.forEach(function (code) {
+      var pre = code.closest("pre");
+      if (!pre) return;
+
+      var div = document.createElement("div");
+      div.className = "mermaid";
+      div.textContent = code.textContent;
+
+      // Reemplaza el <pre> completo por el <div class="mermaid">
+      pre.parentElement.replaceChild(div, pre);
+    });
+
+    // Renderizar
+    try {
+      mermaid.run({ querySelector: ".mermaid" });
+    } catch (e) {
+      console.error("Mermaid render error:", e);
+    }
+  });
+</script>
