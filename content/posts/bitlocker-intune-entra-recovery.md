@@ -72,23 +72,23 @@ Windows 10/11 Pro/Enterprise/Education
 
 
 ```powershel
-
-
 # Estado de BitLocker
 manage-bde -status
+```
+Esperado:
+**Si aún no está cifrado, verás "Conversion Status: Fully Decrypted"**
+![TPM status](/microsoft-cybersec/img/bitlocker-status.png)
 
+
+```powershel
 # Estado TPM (si aplica)
 Get-Tpm
-
-
-Esperado:
-
-Si aún no está cifrado, verás "Conversion Status: Fully Decrypted"
-
-TPM listo (TpmReady : True) ayuda, pero no siempre es obligatorio según tu política
-
-
 ```
+**TPM listo (TpmReady : True) ayuda, pero no siempre es obligatorio según la política que se aplica.**
+![TPM status](/microsoft-cybersec/img/get-tpm.png)
+
+
+
 
 ### Paso 2 — Crear política de cifrado en Intune (Endpoint security)
 
