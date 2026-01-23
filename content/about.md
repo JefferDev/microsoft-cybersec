@@ -4,7 +4,7 @@ date: 2026-01-22T13:35:00-05:00
 draft: false
 ---
 
-![Jefferson Castiblanco](/static/img/jefferson.jpg)
+![Jefferson Castiblanco](/img/jefferson.jpg)
 
 Soy **Jefferson Castiblanco**. Publico laboratorios y procedimientos de ciberseguridad enfocados en Microsoft 365 (Entra ID, Intune, Purview, Defender) y cumplimiento LATAM.
  

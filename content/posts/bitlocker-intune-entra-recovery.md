@@ -65,7 +65,12 @@ Windows 10/11 Pro/Enterprise/Education
 
 ## Paso a paso
 ### Paso 1 — Verifica estado del dispositivo (rápido)
+ 
  En el equipo (PowerShell como admin):
+
+  ![PowerShell as Admin](/microsoft-cybersec/img/run-pws-admin.png)
+
+
 ```powershel
 
 
