@@ -4,12 +4,12 @@ date: 2026-01-22T10:00:00-05:00
 draft: false
 categories: ["Intune"]
 tags: ["BitLocker", "Entra ID", "Windows 11", "Endpoint Security", "Compliance", "Zero Trust"]
-summary: "Laboratorio completo para habilitar BitLocker con Intune (Endpoint security), validar el cifrado y recuperar la clave de recuperación desde Microsoft Entra ID."
+summary: "Laboratorio completo para habilitar BitLocker con Intune (Endpoint security), validar el cifrado y recuperar las llaves de recuperación desde Microsoft Entra ID."
 ---
 
 ## Objetivo
 
-Implementar BitLocker en Windows con Microsoft Intune (Endpoint security) y validar:
+Implementar BitLocker en Windows administrado con Microsoft Intune (Endpoint security) y validar:
 
 - Cifrado activo en el equipo
 - Rotación/registro de claves
@@ -21,9 +21,10 @@ Implementar BitLocker en Windows con Microsoft Intune (Endpoint security) y vali
 ## Alcance
 
 Incluye:
-- Política de BitLocker vía Intune
+- Política de BitLocker vía Intune, cifrado silencioso
 - Validación local (Windows)
 - Validación en portal (Entra ID)
+- Script forzado de sincronización de llaves de recuperación
 - Troubleshooting frecuente
 
 No incluye:
@@ -37,31 +38,40 @@ No incluye:
 ```mermaid
 flowchart TD
 A["Administrador Intune"] --> B["Policy: Endpoint security - Disk encryption"]
-B --> C["Dispositivo Windows (Enrolled)"]
-C --> D["BitLocker Encryption"]
+B --> C["Dispositivo Windows (Enrolled) Hybrid or 100% Cloud"]
+C --> D["BitLocker Silent Encryption"]
 D --> E["Recovery Key Escrow"]
 E --> F["Microsoft Entra ID Device Object"]
-F --> G["Admin recupera clave"]
+F --> G["Admin recovery key"]
 ```
 
 
 ## Requisitos Técnicos
 
 Windows 10/11 Pro/Enterprise/Education
-- Dispositivo inscrito en Intune
+- Dispositivo enrolado en Intune
 - Recomendado: Entra Joined (o Hybrid Joined si aplica)
 - TPM disponible (recomendado para mejor experiencia)
 - Roles / permisos
-- Permiso para administrar políticas en Intune
-- Permiso para ver dispositivos en Entra ID (para recuperar claves)
+  - Permiso para administrar políticas en Intune
+  - Permiso para ver dispositivos en Entra ID (para recuperar claves)
 - Consideraciones previas
-- Define si vas a cifrar:
+- Definición del tipo de cifrado de disco:
   - Solo SO drive (más común)
   - SO + unidades fijas (más restrictivo)
   - Unidades removibles (BitLocker To Go)
 
-
 ---
+
+## Roles y Permisos
+Para lograr la administración de las directivas de BitLocker para la implementación y administración se requieren algunos de los siguientes roles asignados:
+### Roles de Entra ID:
+- Intune Administrator
+- Security Administrator
+- Global Administrator
+### Roles de Microsoft Intune
+- Help Desk Operator
+- Endpoint Security Administrator
 
 ## Paso a paso
 ### Paso 1 — Verifica estado del dispositivo (rápido)
