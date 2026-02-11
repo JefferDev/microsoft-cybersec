@@ -11,7 +11,7 @@ summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Micr
 
 Windows Hello for Business (WHfB) habilita **autenticación sin contraseña** en Windows usando **PIN** y/o **biometría**, respaldado por claves asimétricas (idealmente protegidas por **TPM**). En escenarios híbridos, WHfB puede ofrecer **SSO** tanto a recursos cloud (Microsoft 365, apps SAML/OIDC) como a recursos on-premises que dependan de **Kerberos/NTLM**, siempre que se configure el modelo adecuado de confianza.
 
-En esta entrada se documenta la implementación de WHfB usando el modelo:
+En esta publicación del Blog se documenta la implementación de WHfB usando el modelo:
 
 - **Cloud Kerberos Trust** (Microsoft Entra Kerberos)
 
@@ -83,7 +83,7 @@ Ejecutar PowerShell como **Administrador**:
   [Net.SecurityProtocolType]::Tls12
 
 Install-Module -Name AzureADHybridAuthenticationManagement -AllowClobber
-
+```
 ## Paso 2 — Crear y publicar el objeto Microsoft Entra Kerberos en AD
 
 La operación crea un objeto de tipo Computer llamado típicamente AzureADKerberos en el dominio, que se comporta conceptualmente como un RODC (sin servidor físico asociado). Este objeto permite que Entra ID genere TGTs para el dominio.
@@ -103,7 +103,7 @@ $domainCred = Get-Credential -Message `
 
 # Crea el objeto AzureADKerberos y lo publica a Entra ID
 Set-AzureADKerberosServer -Domain $domain -CloudCredential $cloudCred -DomainCredential $domainCred
-
+```
 
 Verificación esperada
 Debe aparecer un objeto AzureADKerberos en Active Directory Users and Computers, generalmente en Domain Controllers.
@@ -211,7 +211,7 @@ Ejecuta:
 
 ```powershell
 dsregcmd /status
-
+```
 Revisa estado de:
 
 Entra join / Hybrid join
