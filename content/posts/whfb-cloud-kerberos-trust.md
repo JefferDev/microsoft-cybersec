@@ -10,7 +10,7 @@ summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Micr
 ## 🚧 Post en construcción
 Estoy terminando el contenido y las validaciones para documentar en este posr. Próxima actualización pronto. ✅🛠️
 
-## 5.6.7 Windows Hello for Business (WHfB)
+## Windows Hello for Business (WHfB)
 
 Windows Hello for Business (WHfB) habilita autenticación sin contraseña (passwordless) en Windows usando PIN y/o biometría, respaldado por claves asimétricas (idealmente protegidas por **TPM**). En escenarios híbridos, WHfB puede ofrecer SSO tanto a recursos cloud (Microsoft 365, apps SAML/OIDC) como a recursos on-premises que dependan de Kerberos/NTLM, siempre que se configure el modelo adecuado de confianza.
 
@@ -24,7 +24,7 @@ Este modelo permite a Microsoft Entra ID emitir tokens de **TGT parciales** para
 
 ---
 
-## 5.6.8 WHfB Cloud Trust configuration (Cloud Kerberos Trust)
+## WHfB Cloud Trust configuration (Cloud Kerberos Trust)
 
 ### Arquitectura (alto nivel)
 
