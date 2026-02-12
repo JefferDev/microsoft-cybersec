@@ -7,15 +7,17 @@ categories: ["Identidad", "Zero Trust", "Intune"]
 summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Microsoft Entra Kerberos) y asegurar SSO a recursos on-premises sin contraseñas."
 ---
 
+### Este post aún esta en construcción
+
 ## 5.6.7 Windows Hello for Business (WHfB)
 
-Windows Hello for Business (WHfB) habilita **autenticación sin contraseña** en Windows usando **PIN** y/o **biometría**, respaldado por claves asimétricas (idealmente protegidas por **TPM**). En escenarios híbridos, WHfB puede ofrecer **SSO** tanto a recursos cloud (Microsoft 365, apps SAML/OIDC) como a recursos on-premises que dependan de **Kerberos/NTLM**, siempre que se configure el modelo adecuado de confianza.
+Windows Hello for Business (WHfB) habilita autenticación sin contraseña (passwordless) en Windows usando PIN y/o biometría, respaldado por claves asimétricas (idealmente protegidas por **TPM**). En escenarios híbridos, WHfB puede ofrecer SSO tanto a recursos cloud (Microsoft 365, apps SAML/OIDC) como a recursos on-premises que dependan de Kerberos/NTLM, siempre que se configure el modelo adecuado de confianza.
 
 En esta publicación del Blog se documenta la implementación de WHfB usando el modelo:
 
 - **Cloud Kerberos Trust** (Microsoft Entra Kerberos)
 
-Este modelo permite a Microsoft Entra ID emitir **TGT parciales** para Active Directory, que luego el cliente “intercambia” con un **Domain Controller** para obtener un TGT completo y acceder a recursos tradicionales on-premises.
+Este modelo permite a Microsoft Entra ID emitir tokens de **TGT parciales** para Active Directory, que luego el cliente “intercambia” con un Domain Controller para obtener un TGT completo y acceder a recursos tradicionales on-premises.
 
 > Nota: Este artículo usa “CONTOSO” como nombre de referencia. Ajusta nombres de grupos, políticas y dominios a tu entorno.
 
@@ -26,24 +28,17 @@ Este modelo permite a Microsoft Entra ID emitir **TGT parciales** para Active Di
 ### Arquitectura (alto nivel)
 
 El flujo general (simplificado) es:
-
+```mermaid
+flowchart TD
 1. El usuario inicia sesión en Windows con credenciales modernas (WHfB o llave FIDO2) y autentica contra **Microsoft Entra ID**.
 2. Entra ID valida que exista una configuración de **Microsoft Entra Kerberos** para el dominio on-premises del usuario.
 3. Entra ID emite un **TGT parcial** para el dominio AD.
 4. El cliente recibe el **PRT** (token de sesión en Entra) y el TGT parcial.
 5. El cliente contacta un **DC on-premises** y canjea el TGT parcial por un **TGT completo**.
-
+```
 ![Diagrama de flujo: Entra ID emite un TGT parcial y el cliente lo canjea con un DC on-premises para obtener un TGT completo](./whfb-cloud-trust-diagram.png)
 
-> Recomendación (Hugo): guarda las imágenes en el mismo folder del post (page bundle) y referencia con `./archivo.png`.
->
-> Estructura sugerida:
-> - `content/posts/whfb-cloud-trust/index.md`
-> - `content/posts/whfb-cloud-trust/whfb-cloud-trust-diagram.png`
-> - `content/posts/whfb-cloud-trust/whfb-intune-policy.png`
-> - `content/posts/whfb-cloud-trust/azureadkerberos-aduc.png`
 
----
 
 ## Prerrequisitos (checklist)
 
@@ -60,7 +55,7 @@ El flujo general (simplificado) es:
 
 ### Roles y privilegios (mejor práctica)
 - Evitar usar Global Admin para tareas operativas.
-- Para la configuración de Kerberos en la nube:
+- Para la configuración de Kerberos en la nube, las siguientes son las variables que usaremos dentro de la ejecución de PowerShell para la configuración del servicio:
   - **$cloudCred**: usuario con rol **Hybrid Identity Administrator** (o equivalente requerido en tu organización).
   - **$domainCred**: cuenta con permisos **Domain Admin** (y típicamente **Enterprise Admin** si aplica en forest y dominios múltiples).
 
@@ -108,6 +103,9 @@ Set-AzureADKerberosServer -Domain $domain -CloudCredential $cloudCred -DomainCre
 Verificación esperada
 Debe aparecer un objeto AzureADKerberos en Active Directory Users and Computers, generalmente en Domain Controllers.
 En Entra ID, la configuración queda asociada a la capacidad de emitir TGTs para los dominios configurados.
+
+![Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers - ](/static/img/azuread-kerberos-object.png)
+
 
 Advertencias y mejores prácticas de seguridad
 No eliminar ni modificar el objeto AzureADKerberos mientras uses Cloud Kerberos Trust.

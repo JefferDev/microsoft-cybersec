@@ -7,6 +7,9 @@ tags: ["BitLocker", "Entra ID", "Windows 11", "Endpoint Security", "Compliance",
 summary: "Laboratorio completo para habilitar BitLocker con Intune (Endpoint security), validar el cifrado y recuperar las llaves de recuperación desde Microsoft Entra ID."
 ---
 
+### Este post aún esta en construcción
+
+
 ## Objetivo
 
 Implementar BitLocker en Windows administrado con Microsoft Intune (Endpoint security) y validar:
