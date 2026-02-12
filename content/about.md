@@ -13,7 +13,8 @@ Soy **Jefferson Castiblanco**. Público laboratorios y procedimientos de ciberse
 - Microsoft Entra ID  
 - Microsoft Intune  
 - Microsoft Purview  
-- Microsoft Defender XDR  
+- Microsoft Defender XDR
+- AWS Security  
 - Cumplimiento LATAM  
 
 **Objetivo:** contenido reproducible, técnico y validado en entornos reales.

@@ -110,7 +110,7 @@ Verificación esperada
 Debe aparecer un objeto AzureADKerberos en Active Directory Users and Computers, generalmente en Domain Controllers.
 En Entra ID, la configuración queda asociada a la capacidad de emitir TGTs para los dominios configurados.
 
-![Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers - ](/static/img/azuread-kerberos-object.png)
+![Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers - ](/static/img/azuread-kerberos-object.png "AzureADKerberos")
 
 
 Advertencias y mejores prácticas de seguridad
