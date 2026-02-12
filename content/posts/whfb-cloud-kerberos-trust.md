@@ -7,7 +7,8 @@ categories: ["Identidad", "Zero Trust", "Intune"]
 summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Microsoft Entra Kerberos) y asegurar SSO a recursos on-premises sin contraseñas."
 ---
 
-## :wrench: Este post aún esta en construcción :clock3:
+## 🚧 Post en construcción
+Estoy validando el procedimiento y agregando evidencias (capturas/logs). Próxima actualización pronto. ✅🛠️
 
 ## 5.6.7 Windows Hello for Business (WHfB)
 
@@ -49,9 +50,9 @@ flowchart TD
 ## Prerrequisitos (checklist)
 
 ### Sistema y plataforma
-- **Windows 10 2004+** (o superior) en los endpoints.
-- **Domain Controllers Windows Server 2016+**, con parches al día.
-- Política de Kerberos: habilitar **AES256_HMAC_SHA1** si estás restringiendo tipos de cifrado en DCs (GPO “Network security: Configure encryption types allowed for Kerberos”).
+- Windows 10 21H2, con KB5010415 o superior / Windows 11 21H2, con KB5010414 o superior en los endpoints.
+- Domain Controllers Windows Server 2016+, con parches al día.
+- Se recomienda que los usuarios hayan registrado por lo menos un metódo de autenticación opcional (2FA) previamente, no obstante, si el usuario no lo ha hecho se le perdira el registro durante el primer inicio de WHfB.
 
 ### Identidad híbrida
 - **Microsoft Entra Connect** sincronizando (mínimo) estos atributos hacia Entra ID:
@@ -62,18 +63,22 @@ flowchart TD
 ### Roles y privilegios (mejor práctica)
 - Evitar usar Global Admin para tareas operativas.
 - Para la configuración de Kerberos en la nube, las siguientes son las variables que usaremos dentro de la ejecución de PowerShell para la configuración del servicio:
-  - **$cloudCred**: usuario con rol **Hybrid Identity Administrator** (o equivalente requerido en tu organización).
-  - **$domainCred**: cuenta con permisos **Domain Admin** (y típicamente **Enterprise Admin** si aplica en forest y dominios múltiples).
+  - **$cloudCred**: usuario con rol **Hybrid Identity Administrator**.
+  - **$domainCred**: cuenta con permisos **Domain Admin** y **Enterprise Admin** si aplica en forest y dominios múltiples.
 
 ### Alcance y exclusiones recomendadas
-- Iniciar con **piloto por dispositivos** (grupo dedicado).
-- Excluir cuentas privilegiadas Tier-0 (Domain Admins/Enterprise Admins) del uso de Cloud Kerberos Trust para acceso a recursos on-premises, salvo que tengas un diseño de administración privilegiada muy controlado.
+- Iniciar con **piloto por dispositivos** (grupo dedicado asignado a las directivas de Intune o GPO).
+- Excluir cuentas privilegiadas Tier-0 (Domain Admins/Enterprise Admins) del uso de Cloud Kerberos Trust para acceso a recursos on-premises, salvo que se tenga un diseño de administración privilegiada muy controlado en donde se vaya a implementar.
 
 ---
 
 ## Paso 1 — Instalar módulo AzureADHybridAuthenticationManagement
 
 Este módulo facilita la administración de escenarios passwordless (FIDO2/WHfB) en híbrido.
+
+> Documentación oficial para validar cualquier cambio: [*Enable passwordless security key sign-in to on-premises resources by using Microsoft Entra ID*] (**https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-passwordless-security-key-on-premises#install-the-azureadhybridauthenticationmanagement-module**).
+
+Con el siguiente comando se realiza la configuración de TLS 1.2 y se instala el módulo de AzureADHybridAuthenticationManagement.
 
 Ejecutar PowerShell como **Administrador**:
 
@@ -87,7 +92,7 @@ Install-Module -Name AzureADHybridAuthenticationManagement -AllowClobber
 ```
 ## Paso 2 — Crear y publicar el objeto Microsoft Entra Kerberos en AD
 
-La operación crea un objeto de tipo Computer llamado típicamente AzureADKerberos en el dominio, que se comporta conceptualmente como un RODC (sin servidor físico asociado). Este objeto permite que Entra ID genere TGTs para el dominio.
+A continuación, se detalla el proceso de creación del objeto de tipo Computer llamado AzureADKerberos en el dominio, que tiene un comportamiento conceptualmente como un RODC (sin servidor físico asociado). Este objeto permite que Entra ID genere TGTs para el dominio On-Premises.
 
 
 ```powershell
@@ -106,17 +111,18 @@ $domainCred = Get-Credential -Message `
 Set-AzureADKerberosServer -Domain $domain -CloudCredential $cloudCred -DomainCredential $domainCred
 ```
 
-Verificación esperada
-Debe aparecer un objeto AzureADKerberos en Active Directory Users and Computers, generalmente en Domain Controllers.
+Luego de ejecutar los comandos previamente indicados, como parte de la comprobación de la configuración debe aparecer un objeto AzureADKerberos en Active Directory Users and Computers, generalmente en Domain Controllers.
+
 En Entra ID, la configuración queda asociada a la capacidad de emitir TGTs para los dominios configurados.
 
-![Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers - ](/static/img/azuread-kerberos-object.png "AzureADKerberos")
+💡 Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers 
+![💡 Verificación: Se debe crear un objeto AzureADKerberos tipo Computer dentro del contendor de Domain Conrollers - ](/img/azuread-kerberos-object.png "AzureADKerberos")
 
 
-Advertencias y mejores prácticas de seguridad
-No eliminar ni modificar el objeto AzureADKerberos mientras uses Cloud Kerberos Trust.
-No relajar la Password Replication Policy (PRP) de AzureADKerberos para permitir cuentas altamente privilegiadas. Mantén controles Tier-0 estrictos.
-Mantén patching y hardening de DCs, y monitoreo de eventos Kerberos.
+**⚠️ Advertencias y mejores prácticas de seguridad**
+- No eliminar ni modificar el objeto AzureADKerberos mientras uses Cloud Kerberos Trust.
+- No relajar la Password Replication Policy (PRP) de AzureADKerberos para permitir cuentas altamente privilegiadas. Mantén controles Tier-0 estrictos.
+- Mantén patching y hardening de DCs, y monitoreo de eventos Kerberos.
 
 ## Paso 3 — Configurar WHfB para Cloud Kerberos Trust en Intune
 
