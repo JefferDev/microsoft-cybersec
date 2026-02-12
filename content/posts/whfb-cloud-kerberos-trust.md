@@ -7,7 +7,7 @@ categories: ["Identidad", "Zero Trust", "Intune"]
 summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Microsoft Entra Kerberos) y asegurar SSO a recursos on-premises sin contraseñas."
 ---
 
-### Este post aún esta en construcción
+:tool: ## Este post aún esta en construcción
 
 ## 5.6.7 Windows Hello for Business (WHfB)
 
@@ -30,11 +30,17 @@ Este modelo permite a Microsoft Entra ID emitir tokens de **TGT parciales** para
 El flujo general (simplificado) es:
 ```mermaid
 flowchart TD
-1. El usuario inicia sesión en Windows con credenciales modernas (WHfB o llave FIDO2) y autentica contra **Microsoft Entra ID**.
-2. Entra ID valida que exista una configuración de **Microsoft Entra Kerberos** para el dominio on-premises del usuario.
-3. Entra ID emite un **TGT parcial** para el dominio AD.
-4. El cliente recibe el **PRT** (token de sesión en Entra) y el TGT parcial.
-5. El cliente contacta un **DC on-premises** y canjea el TGT parcial por un **TGT completo**.
+
+  A["Sign-in: WHfB/FIDO2 -> Microsoft Entra ID"]
+  B["Entra ID ubica la configuración de Entra Kerberos (AzureADKerberos) para el dominio AD del usuario"]
+  C["Entra ID emite un Kerberos TGT parcial para el dominio AD"]
+  D["El dispositivo recibe PRT + TGT parcial"]
+  E["El dispositivo presenta el TGT parcial al DC (KDC) on-premises"]
+  F["El DC entrega un TGT completo (y luego service tickets según se requiera)"]
+  G["SSO: acceso a recursos on-prem (Kerberos/NTLM) y cloud (PRT)"]
+
+  A --> B --> C --> D --> E --> F --> G
+
 ```
 ![Diagrama de flujo: Entra ID emite un TGT parcial y el cliente lo canjea con un DC on-premises para obtener un TGT completo](./whfb-cloud-trust-diagram.png)
 
