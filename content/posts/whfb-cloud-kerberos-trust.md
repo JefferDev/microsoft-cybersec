@@ -8,7 +8,7 @@ summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Micr
 ---
 
 ## 🚧 Post en construcción
-Estoy validando el procedimiento y agregando evidencias (capturas/logs). Próxima actualización pronto. ✅🛠️
+Estoy terminando el contenido y las validaciones para documentar en este posr. Próxima actualización pronto. ✅🛠️
 
 ## 5.6.7 Windows Hello for Business (WHfB)
 
