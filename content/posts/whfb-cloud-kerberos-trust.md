@@ -7,7 +7,7 @@ categories: ["Identidad", "Zero Trust", "Intune"]
 summary: "Guía práctica para habilitar WHfB en modo Cloud Kerberos Trust (Microsoft Entra Kerberos) y asegurar SSO a recursos on-premises sin contraseñas."
 ---
 
-:tool: ## Este post aún esta en construcción
+## :wrench: Este post aún esta en construcción :clock3:
 
 ## 5.6.7 Windows Hello for Business (WHfB)
 

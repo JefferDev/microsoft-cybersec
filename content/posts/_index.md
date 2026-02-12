@@ -2,7 +2,7 @@
 title: "Microsoft Cybersecurity Blog"
 ---
 
-👋 Bienvenido. Publico laboratorios y procedimientos de ciberseguridad enfocados en **Microsoft Entra ID**, **Intune**, **Microsoft Purview**, **Defender** y **Azure**.
+👋 Bienvenido. Público laboratorios y procedimientos de ciberseguridad enfocados en **Microsoft Entra ID**, **Intune**, **Microsoft Purview**, **Defender** y **Azure**.
 
 {{< tip >}}
 Mi objetivo: Documentar procedimientos técnicos sobre las soluciones de seguridad de Microsoft 365, con enfoque práctico, reproducible y orientado a implementación.
