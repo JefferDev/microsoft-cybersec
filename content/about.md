@@ -6,9 +6,9 @@ draft: false
 
 ![Jefferson Castiblanco](/img/jefferson.jpg)
 
-Soy **Jefferson Castiblanco**. Publico laboratorios y procedimientos de ciberseguridad enfocados en Microsoft 365 (Entra ID, Intune, Purview, Defender) y cumplimiento LATAM.
+Soy **Jefferson Castiblanco**. Público laboratorios y procedimientos de ciberseguridad enfocados en Microsoft 365 (Entra ID, Intune, Purview, Defender) y cumplimiento a nivel LATAM.
  
-Publico laboratorios y procedimientos de ciberseguridad enfocados en:
+ Algunas de las soluciones sobre las que público labs y procedimientos, son:
 
 - Microsoft Entra ID  
 - Microsoft Intune  
