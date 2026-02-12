@@ -122,27 +122,25 @@ Mantén patching y hardening de DCs, y monitoreo de eventos Kerberos.
 
 Para que WHfB use Cloud Kerberos Trust se requieren (mínimo) estas configuraciones:
 
-Use Windows Hello for Business = true
+* Use Windows Hello for Business = true
+* Use Cloud Trust For On Prem Auth = Enabled
+* Recomendado: Require Security Device = true (usar hardware/TPM cuando aplique)
 
-Use Cloud Trust For On Prem Auth = Enabled
+> Opción A: Settings Catalog (recomendado)
 
-Recomendado: Require Security Device = true (usar hardware/TPM cuando aplique)
-
-Opción A: Settings Catalog (recomendado)
-
-Crea una policy en Intune (Settings catalog) y configura:
+### Crea una policy en Intune (Settings catalog) y configura:
 
 Categoría	Setting	Valor
-Windows Hello for Business	Use Windows Hello For Business	true
-Windows Hello for Business	Use Cloud Trust For On Prem Auth	Enabled
-Windows Hello for Business	Require Security Device	true
+* Windows Hello for Business	Use Windows Hello For Business	true
+* Windows Hello for Business	Use Cloud Trust For On Prem Auth	Enabled
+* Windows Hello for Business	Require Security Device	true
 
 Asigna la policy a un grupo de dispositivos (piloto primero).
 
-Opción B: Custom policy (CSP PassportForWork)
+> Opción B: Custom policy (CSP PassportForWork)
 
 Si prefieres OMA-URI:
-
+```xml
 OMA-URI: ./Device/Vendor/MSFT/PassportForWork/{TenantId}/Policies/UsePassportForWork
 Data type: bool
 Value: True
@@ -154,58 +152,38 @@ Value: True
 OMA-URI: ./Device/Vendor/MSFT/PassportForWork/{TenantId}/Policies/RequireSecurityDevice
 Data type: bool
 Value: True
+```
 
-
-Importante: si aplicas GPO + Intune para WHfB, normalmente GPO tiene precedencia y puede “anular” Intune. Elige una fuente principal para evitar conflictos.
+💡 Importante: si aplicas GPO + Intune para WHfB, normalmente GPO tiene precedencia y puede “anular” Intune. Elige una fuente principal para evitar conflictos.
 
 
 ## Recomendación de baseline WHfB (PIN/TPM/Biometría)
 
 Ejemplo de configuración observada en un piloto (Intune profile):
-
-WHfB: Enable
-
-Minimum PIN length: 6
-
-Maximum PIN length: 8
-
-PIN expiration: 60 días
-
-PIN history: 4
-
-PIN recovery: Enable
-
-TPM: Enable
-
-Biometrics: Enable
-
-Enhanced anti-spoofing (si disponible): Enable
-
-Ajustes sugeridos (mejor práctica)
-
-Permitir PIN más largo: mantener mínimo 6–8, pero subir el máximo (8 suele ser bajo; permite que usuarios adopten 10–12+ si quieren).
-
-Evitar expiración de PIN salvo requerimiento normativo: un PIN WHfB no es una contraseña reutilizable; forzar rotación puede empeorar la experiencia y no siempre mejora seguridad.
-
-Mantener TPM requerido y anti-spoofing habilitado cuando exista soporte.
-
-Considerar controles adicionales: Conditional Access, MFA fuerte para el registro inicial, y protección de endpoints (Defender for Endpoint).
+* WHfB: Enable
+* Minimum PIN length: 4
+* Maximum PIN length: 8
+* PIN expiration: 60 días
+* PIN history: 4
+* PIN recovery: Enable
+* TPM: Enable
+* Biometrics: Enable
+* Enhanced anti-spoofing (si disponible): Enable
+* Ajustes sugeridos (mejor práctica)
+* Permitir PIN más largo: mantener mínimo 4–8, pero subir el máximo.
+* Evitar expiración de PIN salvo requerimiento normativo: un PIN WHfB no es una contraseña reutilizable; forzar rotación puede empeorar la experiencia y no siempre mejora seguridad.
+* Mantener TPM requerido y anti-spoofing habilitado cuando exista soporte.
+> Considerar controles adicionales: Conditional Access, MFA fuerte para el registro inicial, y protección de endpoints (Defender for Endpoint).
 
 
 ## Paso 4 — Experiencia de enrolamiento (qué verá el usuario)
 
 Después del inicio de sesión, si los prerrequisitos pasan:
-
 Si hay biometría compatible, se ofrece configurar rostro/huella (opcional).
-
 Se solicita confirmar uso de Windows Hello con la cuenta corporativa.
-
 Se realiza verificación MFA (para completar el enrolamiento).
-
 Se crea y valida el PIN (sujeto a políticas).
-
 Se genera un par de claves asimétricas (idealmente en TPM) y se registra la pública.
-
 El usuario puede iniciar sesión con PIN/biometría y tener SSO a cloud + on-premises.
 
 Monitoreo y troubleshooting rápido
@@ -221,14 +199,9 @@ Revisa estado de:
 Entra join / Hybrid join
 
 PRT
-
 Señales de SSO
-
 Logs relevantes
-
 Event Viewer:
-
 Applications and Services Logs > Microsoft > Windows > User Device Registration
-
 Busca eventos relacionados con prerequisitos y provisioning de WHfB.
 
