@@ -178,7 +178,7 @@ Tras ejecutar el comando, se debe validar:
 1. **En Active Directory:** el objeto `AzureADKerberos` de tipo Computer debe existir en el contenedor de Domain Controllers.
 2. **En PowerShell:** ejecutar `Get-AzureADKerberosServer` y confirmar que `KeyVersion >= 1` y `CloudKeyVersion >= 1`.
 
-![Verificación: Objeto AzureADKerberos tipo Computer en el contenedor de Domain Controllers](azuread-kerberos-object.png)
+![Verificación: Objeto AzureADKerberos tipo Computer en el contenedor de Domain Controllers](images/azuread-kerberos-object.png)
 
 ```powershell
 # Verificar estado del objeto
