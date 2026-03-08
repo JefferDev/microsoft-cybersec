@@ -16,7 +16,7 @@ categories:
   - Identidad
   - Zero Trust
   - Intune
-author: "TU_NOMBRE"
+author: "Jefferson Castiblanco"
 summary: >
   Guía paso a paso para implementar Windows Hello for Business en modo
   Cloud Kerberos Trust (Microsoft Entra Kerberos), habilitando autenticación
