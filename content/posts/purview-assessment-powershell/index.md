@@ -17,7 +17,7 @@ cover:
 
 ## El problema: seis scripts, trece helpers duplicados
 
-Los assessments de Microsoft Purview que realizo para clientes cubrían seis cargas de trabajo con seis scripts independientes: etiquetas de sensibilidad (MIP), DLP, Insider Risk Management, Communication Compliance, retención (DLM) y SITs personalizados. Funcionaban, pero el análisis de las 6.645 líneas reveló los costos de esa arquitectura:
+Los assessments de Microsoft Purview que realizo para clientes cubrían seis cargas de trabajo con seis scripts independientes: etiquetas de sensibilidad (MIP), DLP, Insider Risk Management, Communication Compliance, retención (DLM) y SITs personalizados. Funcionan bien los scripts separados, pero como medida de optimización y conslidación de estas herramientas, se crea este módulo, permitiendo un mejor mantenimiento, portabilidad y usabilidad de las herramientas:
 
 - **Trece familias de helpers duplicadas** con implementaciones divergentes: tres patrones distintos de conexión a Security & Compliance PowerShell, cinco funciones de logging, y el ~40 % del código era HTML/CSS/JS re-escrito en cada script.
 - **Requisitos inconsistentes**: dos scripts exigían PowerShell 7, el resto 5.1; uno emitía mensajes en inglés.
