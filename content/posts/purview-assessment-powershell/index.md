@@ -10,7 +10,7 @@ summary: "Cómo consolidé seis scripts de assessment de Purview en un módulo d
 ShowToc: true
 TocOpen: false
 cover:
-  image: "images/cover.png"
+  image: ""
   alt: "Arquitectura del módulo PurviewAssessment"
   relative: true
 ---

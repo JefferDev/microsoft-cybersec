@@ -23,7 +23,7 @@ summary: >
   passwordless con SSO a recursos cloud y on-premises en entornos Microsoft
   híbridos.
 cover:
-  image: "cover.png"
+  image: ""
   alt: "Diagrama de arquitectura Windows Hello for Business Cloud Kerberos Trust"
   caption: "WHfB Cloud Kerberos Trust — SSO passwordless híbrido"
   relative: true
